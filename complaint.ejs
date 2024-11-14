@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Vehicle Complaint Page</title>
+    <style>
+        body {
+            background-color: #4CAF50; /* Green background */
+            font-family: Arial, sans-serif;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: black(3, 3, 3);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #responseMessage {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://scontent.fmaa1-1.fna.fbcdn.net/v/t39.30808-1/334499739_1151833885530778_2626969571811949462_n.jpg?stp=cp0_dst-jpg_e15_q65_s240x240&_nc_cat=111&ccb=1-7&_nc_sid=6738e8&_nc_ohc=shwGPHxiNvYQ7kNvgGrEp8l&_nc_zt=24&_nc_ht=scontent.fmaa1-1.fna&_nc_gid=AU8d7tRC3eOQeGtFSCLcfeK&oh=00_AYC8-HCiydrBTfyT9bKLJ8fD_26DPDlyCaohjpm-obCQAg&oe=673BF6BC" alt="Chargewise Logo" class="logo">
+        <h1>Chargewise - Electric Vehicle Complaint</h1>
+        
+        <form id="complaintForm" action="/submit-complaint" method="POST">
+            <label for="username">User Name:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="evNumber">Electric Vehicle Number:</label>
+            <input type="text" id="evNumber" name="evNumber" required>
+
+            <label for="problem">Problem Description:</label>
+            <textarea id="problem" name="problem" required></textarea>
+
+            <label for="phone">Phone Number:</label>
+            <input type="number" id="phone" name="phone" required>
+
+            <button type="submit">Submit Complaint</button>
+        </form>
+
+        <div id="responseMessage"></div>
+    </div>
+
+</body>
+</html>
