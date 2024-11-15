@@ -1,36 +1,48 @@
-<!-- views/components/results.ejs -->
-<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
-    <h1 class="text-3xl font-bold text-center text-teal-700 mb-4">Battery Analysis Results</h1>
-
-    <!-- Display Results -->
-    <p><strong>Vehicle Make and Model:</strong> <%= makeModel %></p>
-    <p><strong>Battery Health:</strong> <%= batteryHealth %> %</p>
-    <p><strong>Recommendations:</strong> <%= recommendations %></p>
-
-    <!-- Chart Display -->
-    <canvas id="batteryChart" width="400" height="200"></canvas>
-
-    <!-- Chart.js Script -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battery Analysis Results - Chargewise</title>
+    <link rel="stylesheet" href="/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="flex items-center mb-6">
+            <img src="https://scontent.fmaa1-1.fna.fbcdn.net/v/t39.30808-1/334499739_1151833885530778_2626969571811949462_n.jpg?stp=cp0_dst-jpg_e15_q65_s240x240&_nc_cat=111&ccb=1-7&_nc_sid=6738e8&_nc_ohc=shwGPHxiNvYQ7kNvgGrEp8l&_nc_zt=24&_nc_ht=scontent.fmaa1-1.fna&_nc_gid=AU8d7tRC3eOQeGtFSCLcfeK&oh=00_AYC8-HCiydrBTfyT9bKLJ8fD_26DPDlyCaohjpm-obCQAg&oe=673BF6BC" alt="Chargewise Logo" class="h-12 mr-4">
+            <h1 class="text-3xl font-semibold">Chargewise</h1>
+        </header>
+
+        <h2 class="text-2xl font-bold mb-4">Battery Analysis Results</h2>
+        
+        <!-- Vehicle and Battery Information -->
+        <p><strong>Vehicle Make and Model:</strong> <%= makeModel %></p>
+        <p><strong>Battery Health:</strong> <%= batteryHealth %> %</p>
+        <p><strong>State of Charge (SOC):</strong> <%= chargePercent %> %</p>
+        <p><strong>Recommendations:</strong> <%= recommendations %></p>
+
+        <!-- Chart Section -->
+        <canvas id="batteryChart" width="400" height="200"></canvas>
+    </div>
+
     <script>
+        // Render Chart.js bar chart with SOC included
         const ctx = document.getElementById('batteryChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Charge Cycles', 'Battery Age', 'Temperature Impact'],
+                labels: ['Charge Cycles', 'Battery Age', 'Temperature Impact', 'SOC (State of Charge)'],
                 datasets: [{
                     label: 'Impact on Battery Health',
-                    data: [<%= chargeCycles %>, <%= batteryAge %>, <%= batteryTemp > 40 ? 10 : 0 %>],
-                    backgroundColor: ['#4caf50', '#ff9800', '#f44336']
+                    data: [<%= chargeCycles %>, <%= batteryAge %>, <%= batteryTemp > 40 ? 10 : 0 %>, <%= chargePercent %>],
+                    backgroundColor: ['#4caf50', '#ff9800', '#f44336', '#2196f3']
                 }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
             }
         });
     </script>
-</div>
+    
+    
+    
+</body>
+</html>

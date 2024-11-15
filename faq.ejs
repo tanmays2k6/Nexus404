@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Vehicle FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #aef7ba;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .faq-container {
+            width: 80%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 2px solid #000; /* Added black border */
+        }
+        .logo {
+            width: 100px;
+            margin: 0 auto;
+        }
+        .main-header {
+            font-size: 2.5em;
+            color: #28a745;
+            margin: 10px 0;
+        }
+        .faq-header {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .faq-question {
+            cursor: pointer;
+            padding: 10px;
+            font-weight: bold;
+            background-color: #008000;
+            color: #fff;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .faq-question:hover {
+            background-color: #0000FF;
+        }
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="faq-container">
+        <!-- Logo Image -->
+        <img src="https://scontent.fmaa1-1.fna.fbcdn.net/v/t39.30808-1/334499739_1151833885530778_2626969571811949462_n.jpg?stp=cp0_dst-jpg_e15_q65_s240x240&_nc_cat=111&ccb=1-7&_nc_sid=6738e8&_nc_ohc=shwGPHxiNvYQ7kNvgGrEp8l&_nc_zt=24&_nc_ht=scontent.fmaa1-1.fna&_nc_gid=AU8d7tRC3eOQeGtFSCLcfeK&oh=00_AYC8-HCiydrBTfyT9bKLJ8fD_26DPDlyCaohjpm-obCQAg&oe=673BF6BC" alt="ChargeWise Logo" class="logo">
+        
+        <!-- Main Header -->
+        <div class="main-header">ChargeWise</div>
+        
+        <!-- FAQ Header -->
+        <div class="faq-header">Electric Vehicle FAQ</div>
+
+        <!-- FAQ Items -->
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                1. How long does it take to charge an electric vehicle?
+            </div>
+            <div class="faq-answer">
+                Charging times vary depending on the vehicle and charging station. Home charging can take 8-12 hours, while fast chargers can charge up to 80% in 30-60 minutes.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                2. What is the average range of an electric vehicle?
+            </div>
+            <div class="faq-answer">
+                Most modern electric vehicles offer a range between 150-300 miles on a full charge. However, some models exceed 400 miles.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                3. Are electric vehicles more expensive to maintain?
+            </div>
+            <div class="faq-answer">
+                Electric vehicles often have lower maintenance costs as they have fewer moving parts and do not require oil changes. However, battery replacement can be costly.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                4. Where can I charge my electric vehicle?
+            </div>
+            <div class="faq-answer">
+                You can charge at home, at public charging stations, or at workplace chargers. Many locations now have fast-charging stations for convenient charging on the go.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                5. How long do EV batteries last?
+            </div>
+            <div class="faq-answer">
+                Most EV batteries are designed to last 8-15 years, depending on usage and environmental factors. Manufacturers usually offer warranties for 8-10 years.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                6. How do EVs perform in cold weather?
+            </div>
+            <div class="faq-answer">
+                Cold weather can impact an EV’s range by reducing battery efficiency. Some EVs have heating systems to counteract this, but driving range may still be slightly lower in winter.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(element) {
+            const answer = element.nextElementSibling;
+            answer.style.display = answer.style.display === "block" ? "none" : "block";
+        }
+    </script>
+</body>
+</html>

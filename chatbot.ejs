@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Chatbot</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Chatbot Container */
+        .chatbot-container {
+            width: 350px;
+            height: 500px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Chatbox */
+        .chat-box {
+            flex: 1;
+            overflow-y: scroll;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        /* Styling the rectangular boxes for questions and answers */
+        .message-box {
+            padding: 15px;
+            border-radius: 8px;
+            width: fit-content;
+            max-width: 80%;
+        }
+
+        .message-box.question {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .message-box.answer {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        /* Pop-up Button */
+        .popup-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+        }
+
+        .popup-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Popup Menu */
+        .popup-menu {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 80%;
+        }
+
+        .popup-menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .popup-menu ul li {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .popup-menu ul li:hover {
+            background-color: #f1f1f1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container">
+        <div class="chat-box" id="chatBox"></div>
+        <button class="popup-button" onclick="togglePopup()">Ask About EVs</button>
+
+        <!-- Popup Menu with Questions -->
+        <div class="popup-menu" id="popupMenu">
+            <ul>
+                <li onclick="askQuestion('What is an electric vehicle?')">What is an electric vehicle?</li>
+                <li onclick="askQuestion('How does an electric vehicle work?')">How does an electric vehicle work?</li>
+                <li onclick="askQuestion('What are the benefits of electric vehicles?')">What are the benefits of electric vehicles?</li>
+                <li onclick="askQuestion('How long does it take to charge an electric vehicle?')">How long does it take to charge an electric vehicle?</li>
+                <li onclick="askQuestion('What is the range of an electric vehicle?')">What is the range of an electric vehicle?</li>
+                <li onclick="askQuestion('Can electric vehicles be charged at home?')">Can electric vehicles be charged at home?</li>
+                <li onclick="askQuestion('Are electric vehicles expensive?')">Are electric vehicles expensive?</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chatBox');
+        const popupMenu = document.getElementById('popupMenu');
+
+        // Predefined answers for questions about electric vehicles
+        const faq = {
+            "What is an electric vehicle?": "An electric vehicle (EV) is a car that is powered by electricity, typically using batteries as a power source.",
+            "How does an electric vehicle work?": "Electric vehicles use an electric motor powered by batteries to drive the wheels. The battery stores electricity and powers the motor.",
+            "What are the benefits of electric vehicles?": "EVs produce zero emissions, are more energy-efficient, and are cheaper to maintain than traditional gasoline-powered vehicles.",
+            "How long does it take to charge an electric vehicle?": "Charging times vary depending on the battery size and charger used, but it typically takes 30 minutes to 12 hours to fully charge an EV.",
+            "What is the range of an electric vehicle?": "The range of an EV depends on the model and battery size, but most modern EVs can travel between 150 to 370 miles on a single charge.",
+            "Can electric vehicles be charged at home?": "Yes, most EV owners charge their vehicles at home using a Level 1 or Level 2 charger, which plugs into a standard or dedicated electrical outlet.",
+            "Are electric vehicles expensive?": "While EVs may have a higher upfront cost, they are generally cheaper to maintain and operate compared to traditional gasoline vehicles."
+        };
+
+        // Function to toggle the popup menu visibility
+        function togglePopup() {
+            popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Function to display a bot message in the chatbox
+        function createMessage(content, sender = 'bot', type = 'answer') {
+            const message = document.createElement('div');
+            message.classList.add('chat-message', sender);
+
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message-box', type);  // 'question' or 'answer'
+
+            messageBox.textContent = content;
+            message.appendChild(messageBox);
+            return message;
+        }
+
+        // Function to ask a question and display the bot's response
+        function askQuestion(question) {
+            // Display user message
+            const userMessage = createMessage(question, 'user', 'question');
+            chatBox.appendChild(userMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Display bot's answer after a delay
+            setTimeout(() => {
+                const answer = faq[question] || "Sorry, I don't have an answer for that. Please ask something else about electric vehicles.";
+                const botMessage = createMessage(answer, 'bot', 'answer');
+                chatBox.appendChild(botMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000); // Simulate thinking delay
+
+            // Close the popup menu after the question is selected
+            popupMenu.style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
