@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Vehicle vs Fuel Car Cost Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #d3f9d8; /* Light green background */
+            color: #2d6a4f; /* Dark green text */
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #e9f5e4; /* Light green background for container */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-control, .form-select {
+            background-color: #d4edda; /* Light green input fields */
+            color: #2d6a4f; /* Dark green text in inputs */
+            border: 1px solid #28a745; /* Green border */
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #ffffff; /* White background on focus */
+            border-color: #218838; /* Darker green border on focus */
+        }
+        .btn-primary {
+            background-color: #28a745; /* Green button */
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        h2 {
+            color: #28a745; /* Green heading */
+        }
+        #result {
+            background-color: #ffffff; /* White background for result section */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        #result h4 {
+            color: #2d6a4f; /* Dark green for result heading */
+        }
+        #result p {
+            font-size: 1.1rem;
+        }
+        label {
+            font-weight: bold;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 50px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="https://scontent.fmaa1-1.fna.fbcdn.net/v/t39.30808-1/334499739_1151833885530778_2626969571811949462_n.jpg?stp=cp0_dst-jpg_e15_q65_s240x240&_nc_cat=111&ccb=1-7&_nc_sid=6738e8&_nc_ohc=shwGPHxiNvYQ7kNvgGrEp8l&_nc_zt=24&_nc_ht=scontent.fmaa1-1.fna&_nc_gid=AU8d7tRC3eOQeGtFSCLcfeK&oh=00_AYC8-HCiydrBTfyT9bKLJ8fD_26DPDlyCaohjpm-obCQAg&oe=673BF6BC" alt="Chargewise Logo" class="logo">
+    <h1>Chargewise</h1>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center">EV vs Fuel Car Cost Calculator</h2>
+    <form id="calculator-form">
+        <div class="mb-3">
+            <label for="journeyDistance" class="form-label">Journey Distance (km)</label>
+            <input type="number" class="form-control" id="journeyDistance" placeholder="Enter distance in km">
+        </div>
+        <div class="mb-3">
+            <label for="evRange" class="form-label">Electric Vehicle Range (km)</label>
+            <input type="number" class="form-control" id="evRange" placeholder="Enter EV range in km">
+        </div>
+        <div class="mb-3">
+            <label for="batteryConsumption" class="form-label">EV Battery Consumption (kWh/km)</label>
+            <input type="number" class="form-control" id="batteryConsumption" placeholder="Enter energy consumption in kWh/km">
+        </div>
+        <div class="mb-3">
+            <label for="costPerKWh" class="form-label">Cost per kWh (₹/kWh)</label>
+            <input type="number" class="form-control" id="costPerKWh" placeholder="Enter electricity cost per kWh">
+        </div>
+        <div class="mb-3">
+            <label for="fuelEfficiency" class="form-label">Fuel Car Efficiency (km/L)</label>
+            <input type="number" class="form-control" id="fuelEfficiency" placeholder="Enter fuel car mileage in km/L">
+        </div>
+        <div class="mb-3">
+            <label for="fuelCost" class="form-label">Fuel Cost (₹/L)</label>
+            <input type="number" class="form-control" id="fuelCost" placeholder="Enter fuel cost per liter">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="calculateCost()">Calculate Cost</button>
+    </form>
+
+    <div id="result" class="mt-4">
+        <h4>Cost Comparison</h4>
+        <p id="evCost"></p>
+        <p id="fuelCarCost"></p>
+        <p id="cheaperChoice"></p>
+    </div>
+</div>
+
+<script>
+    function calculateCost() {
+        // Get form input values
+        const journeyDistance = parseFloat(document.getElementById('journeyDistance').value);
+        const evRange = parseFloat(document.getElementById('evRange').value);
+        const batteryConsumption = parseFloat(document.getElementById('batteryConsumption').value);
+        const costPerKWh = parseFloat(document.getElementById('costPerKWh').value);
+        const fuelEfficiency = parseFloat(document.getElementById('fuelEfficiency').value);
+        const fuelCost = parseFloat(document.getElementById('fuelCost').value);
+
+        // Calculate EV Running Cost
+        const evRunningCost = (journeyDistance / evRange) * batteryConsumption * costPerKWh;
+
+        // Calculate Fuel Car Running Cost
+        const fuelCarRunningCost = (journeyDistance / fuelEfficiency) * fuelCost;
+
+        // Display Results
+        document.getElementById('evCost').innerText = `Electric Vehicle Running Cost: ₹${evRunningCost.toFixed(2)}`;
+        document.getElementById('fuelCarCost').innerText = `Fuel Car Running Cost: ₹${fuelCarRunningCost.toFixed(2)}`;
+
+        // Determine which is cheaper
+        let cheaperChoice = "Both are the same cost.";
+        if (evRunningCost < fuelCarRunningCost) {
+            cheaperChoice = "Electric Vehicle is cheaper.";
+        } else if (fuelCarRunningCost < evRunningCost) {
+            cheaperChoice = "Fuel Car is cheaper.";
+        }
+        document.getElementById('cheaperChoice').innerText = cheaperChoice;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
