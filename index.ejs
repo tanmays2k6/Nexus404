@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargewise | EV Battery Health</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script> <!-- Optional for interactivity -->
+    <style>
+        /* Inline CSS to set a background image */
+        body {
+            background-image: url('https://tse1.mm.bing.net/th?id=OIG2.3E5XdjAqf65Hq8LGWk98&pid=ImgGn');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #000000; /* Adjust text color for readability */
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .complaint-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 20px auto;
+            display: block;
+            width: 250px;
+            cursor: pointer;
+        }
+
+        .complaint-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Chatbot styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            transform: translateY(100%);
+        }
+
+        .chat-widget.active {
+            transform: translateY(0);
+        }
+
+        .chat-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .chat-box {
+            padding: 10px;
+            height: 250px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .send-button {
+            padding: 8px 12px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .send-button:hover {
+            background-color: #45a049;
+        }
+
+        .chat-box div.user-message {
+            text-align: right;
+            background-color: #d4f8d4;
+            color: black;
+            border-radius: 15px;
+            padding: 5px 10px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .chat-box div.bot-message {
+            text-align: left;
+            background-color: #e0e0e0;
+            color: black;
+            border-radius: 15px;
+            padding: 5px 10px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navigation Bar (Desktop + Mobile Responsive) -->
+    <nav class="bg-green-700 text-white p-4 shadow-md fixed w-full top-0 left-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <img src="https://scontent.fmaa1-1.fna.fbcdn.net/v/t39.30808-1/334499739_1151833885530778_2626969571811949462_n.jpg?stp=cp0_dst-jpg_e15_q65_s240x240&_nc_cat=111&ccb=1-7&_nc_sid=6738e8&_nc_ohc=shwGPHxiNvYQ7kNvgGrEp8l&_nc_zt=24&_nc_ht=scontent.fmaa1-1.fna&_nc_gid=AU8d7tRC3eOQeGtFSCLcfeK&oh=00_AYC8-HCiydrBTfyT9bKLJ8fD_26DPDlyCaohjpm-obCQAg&oe=673BF6BC" alt="Chargewise Logo" class="h-10 w-auto"> <!-- Logo image -->
+            <h1 class="text-2xl font-semibold">CHARGEWISE</h1>
+            <div class="space-x-4 hidden md:flex">
+                <a href="#form" class="hover:text-green-400">Get Started</a>
+                <a href="/calculator" class="hover:text-green-400">Cost Calculator</a>
+                <a href="/forum" class="hover:text-green-400">Community forum</a>
+                <a href="#latest-trends" class="hover:text-green-400">Latest Trends</a>
+                <a href="#features" class="hover:text-green-400">Features</a>
+                <a href="#footer" class="hover:text-green-400">Contact</a>
+            </div>
+        </div>
+    </nav>
+        <!-- Hero Section with Background Image -->
+    <header class="bg-cover bg-center h-screen text-white flex flex-col justify-center items-center relative" style="background-image: url('your-image-path.jpg');">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <h2 class="text-4xl font-bold z-10">Maximize Your EV Battery's Lifespan</h2>
+        <p class="text-xl z-10 mt-4">Get insights and recommendations to keep your EV battery in top shape.</p>
+        <a href="#form" class="mt-8 px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-800 transition-all duration-300 z-10">Analyze Your Battery</a>
+        <a href="/faq" class="mt-8 px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-800 transition-all duration-300 z-10">FAQs</a>
+        <a href="/forum" class="mt-8 px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-800 transition-all duration-300 z-10">Community forum</a>
+    </header>
+
+    <!-- Main Form Section -->
+    <main id="form" class="max-w-4xl mx-auto p-6 mt-16 bg-white shadow-lg rounded-md">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">EV Battery Health Analysis</h2>
+<form action="/analyze" method="POST" class="space-y-6">
+            <!-- Form Fields (same as previous code) -->
+
+            <div class="space-y-2">
+                <label for="makeModel" class="block text-lg text-gray-700">Vehicle Make and Model:</label>
+                <input type="text" id="makeModel" name="makeModel" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+
+           <!-- Battery Age -->
+            <div class="space-y-2">
+              <label for="batteryAge" class="block text-lg text-gray-700">Battery Age (months/years):</label>
+              <input type="number" id="batteryAge" name="batteryAge" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+        
+             <!-- Charge Percentage -->
+            <div class="space-y-2">
+              <label for="chargePercent" class="block text-lg text-gray-700">Current Battery Charge Percentage:</label>
+              <input type="number" id="chargePercent" name="chargePercent" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+        
+             <!-- Charge Cycles -->
+            <div class="space-y-2">
+               <label for="chargeCycles" class="block text-lg text-gray-700">Number of Charge Cycles Completed:</label>
+               <input type="number" id="chargeCycles" name="chargeCycles" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+        
+            <!-- Battery Temperature -->
+            <div class="space-y-2">
+              <label for="batteryTemp" class="block text-lg text-gray-700">Battery Temperature (°C):</label>
+              <input type="number" id="batteryTemp" name="batteryTemp" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+        
+        <!-- Average Charging Time -->
+            <div class="space-y-2">
+              <label for="avgChargeTime" class="block text-lg text-gray-700">Average Charging Time (hrs):</label>
+               <input type="number" id="avgChargeTime" name="avgChargeTime" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+        
+           <!-- Ambient Temperature Range -->
+            <div class="space-y-2">
+              <label for="tempRange" class="block text-lg text-gray-700">Ambient Driving Temperature Range (°C):</label>
+              <input type="text" id="tempRange" name="tempRange" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+        
+          <!-- Frequency of Fast Charging -->
+            <div class="space-y-2">
+              <label for="fastChargeFreq" class="block text-lg text-gray-700">Frequency of Fast Charging (times/week):</label>
+              <input type="number" id="fastChargeFreq" name="fastChargeFreq" required class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
+
+
+            <div class="text-center">
+                <button type="submit" class="px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-800 transition-all duration-300">Analyze</button>
+            </div>
+            <a href="/complaint" class="complaint-button">File a Complaint</a>
+         
+
+
+        </form>
+    </main>
+    <section id="latest-trends" class="bg-gray-50 py-20 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Latest EV Trends</h2>
+        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- News articles will be inserted here by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="bg-gray-50 py-20 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Why Choose Chargewise?</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="p-6 bg-white shadow-lg rounded-lg">
+                <h3 class="text-xl font-semibold text-green-600">Optimize Battery Life</h3>
+                <p class="text-gray-600 mt-2">Get personalized recommendations for maintaining your EV battery health.</p>
+            </div>
+            <div class="p-6 bg-white shadow-lg rounded-lg">
+                <h3 class="text-xl font-semibold text-green-600">Data-Driven Insights</h3>
+                <p class="text-gray-600 mt-2">Our tool analyzes critical data to provide actionable insights.</p>
+            </div>
+            <div class="p-6 bg-white shadow-lg rounded-lg">
+                <h3 class="text-xl font-semibold text-green-600">Easy to Use</h3>
+                <p class="text-gray-600 mt-2">A simple and intuitive interface for quick battery analysis.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer Section -->
+    <footer id="footer" class="bg-gray-800 text-white text-center p-6 mt-10">
+        <p>&copy; 2024 Chargewise | All Rights Reserved</p>
+        <div class="mt-4">
+            <a href="https://www.instagram.com/charge._.wise/" target="_blank" class="text-gray-400 hover:text-white mx-3">Instagram</a>
+            <a href="https://twitter.com" target="_blank" class="text-gray-400 hover:text-white mx-3">Twitter</a>
+            <a href="https://linkedin.com" target="_blank" class="text-gray-400 hover:text-white mx-3">LinkedIn</a>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header" onclick="toggleChatWidget()">Chat with ChargeWise</div>
+        <div class="chat-box" id="chatBox">
+            <div class="bot-message">ChargeWise: Hello! How can I assist you today?</div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="userInput" placeholder="Type your message...">
+            <button class="send-button" onclick="handleSend()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle chat widget visibility
+        function toggleChatWidget() {
+            document.getElementById('chatWidget').classList.toggle('active');
+        }
+
+        // Handle sending messages
+        function handleSend() {
+            const userInput = document.getElementById('userInput').value;
+            if (userInput.trim() !== '') {
+                displayMessage('User', userInput);
+                document.getElementById('userInput').value = '';
+                simulateBotTyping(userInput);
+            }
+        }
+
+        function displayMessage(sender, message) {
+            const chatBox = document.getElementById('chatBox');
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = `${sender}: ${message}`;
+            messageDiv.classList.add(sender === 'User' ? 'user-message' : 'bot-message');
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function simulateBotTyping(userMessage) {
+            const chatBox = document.getElementById('chatBox');
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('bot-message');
+            typingDiv.textContent = 'ChargeWise is typing...';
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                chatBox.removeChild(typingDiv);
+                displayMessage('ChargeWise', getBotResponse(userMessage));
+            }, 2000); // 2 seconds delay
+        }
+
+        function getBotResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            if (lowerMessage.includes('hello')) {
+                return 'Hello! How can I help you today?';
+            } else if (lowerMessage.includes('battery')) {
+                return 'We specialize in EV battery analysis and optimization. How can I assist you with your battery today?';
+            } else if (lowerMessage.includes('cost')) {
+                return 'You can use our Cost Calculator to get an estimate for your EV battery maintenance. Is there something specific you would like to know?';
+            } else if (lowerMessage.includes('complaint')) {
+                return 'Please visit our "File a Complaint" section';
+            } else if (lowerMessage.includes('website')) {
+                return 'This website can help you analyze the battery of your EV. Also, we provide latest EV trends and cost analysis calculator. You can file your complaints too';
+            } else {
+                return 'I am here to help with questions about EV batteries, maintenance, and ChargeWise services. Let me know how I can assist!';
+            }
+        }
+    </script>
+
+    <script>
+        // News API integration
+        const apiKey = 'ad8b0328446c467cabc02c4e469e8a69';
+        const newsContainer = document.getElementById('news-container');
+
+        async function fetchEVTrends() {
+            try {
+                const response = await fetch(`https://newsapi.org/v2/everything?q=indian%20electric%20vehicles&apiKey=${apiKey}`);
+                const data = await response.json();
+
+                if (data.articles) {
+                    displayNews(data.articles);
+                } else {
+                    newsContainer.innerHTML = "<p>No articles found. Please check back later.</p>";
+                }
+            } catch (error) {
+                console.error("Error fetching news:", error);
+                newsContainer.innerHTML = "<p>Error loading news. Please try again later.</p>";
+            }
+        }
+
+        function displayNews(articles) {
+            articles.slice(0, 6).forEach(article => {
+                const articleDiv = document.createElement('div');
+                articleDiv.classList.add('p-6', 'bg-white', 'shadow-lg', 'rounded-lg');
+
+                articleDiv.innerHTML = `
+                    <h3 class="text-xl font-semibold text-green-600">${article.title}</h3>
+                    <p class="text-gray-600 mt-2">${article.description || "No description available."}</p>
+                    <a href="${article.url}" target="_blank" class="text-green-500 mt-4 block hover:underline">Read more</a>
+                `;
+
+                newsContainer.appendChild(articleDiv);
+            });
+        }
+
+        // Fetch news on page load
+        document.addEventListener('DOMContentLoaded', fetchEVTrends);
+    </script>
+
+    <script>
+        // News API integration
+        const apiKey = 'ad8b0328446c467cabc02c4e469e8a69';
+        const newsContainer = document.getElementById('news-container');
+
+        async function fetchEVTrends() {
+            try {
+                const response = await fetch(`https://newsapi.org/v2/everything?q=electric%20vehicles&apiKey=${apiKey}`);
+                const data = await response.json();
+
+                if (data.articles) {
+                    displayNews(data.articles);
+                } else {
+                    newsContainer.innerHTML = "<p>No articles found. Please check back later.</p>";
+                }
+            } catch (error) {
+                console.error("Error fetching news:", error);
+                newsContainer.innerHTML = "<p>Error loading news. Please try again later.</p>";
+            }
+        }
+
+        function displayNews(articles) {
+            articles.slice(0, 6).forEach(article => {
+                const articleDiv = document.createElement('div');
+                articleDiv.classList.add('p-6', 'bg-white', 'shadow-lg', 'rounded-lg');
+
+                articleDiv.innerHTML = `
+                    <h3 class="text-xl font-semibold text-green-600">${article.title}</h3>
+                    <p class="text-gray-600 mt-2">${article.description || "No description available."}</p>
+                    <a href="${article.url}" target="_blank" class="text-green-500 mt-4 block hover:underline">Read more</a>
+                `;
+
+                newsContainer.appendChild(articleDiv);
+            });
+        }
+
+        // Fetch news on page load
+        document.addEventListener('DOMContentLoaded', fetchEVTrends);
+    </script>
+        
+    <script>
+        // News API integration
+        const apiKey = 'ad8b0328446c467cabc02c4e469e8a69';
+        const newsContainer = document.getElementById('news-container');
+
+        async function fetchEVTrends() {
+            try {
+                const response = await fetch(`https://newsapi.org/v2/everything?q=india%20electric%20vehicles%20bike%20car%20scooty&apiKey=${apiKey}`);
+                const data = await response.json();
+
+                if (data.articles) {
+                    displayNews(data.articles);
+                } else {
+                    newsContainer.innerHTML = "<p>No articles found. Please check back later.</p>";
+                }
+            } catch (error) {
+                console.error("Error fetching news:", error);
+                newsContainer.innerHTML = "<p>Error loading news. Please try again later.</p>";
+            }
+        }
+
+        function displayNews(articles) {
+            articles.slice(0, 6).forEach(article => {
+                const articleDiv = document.createElement('div');
+                articleDiv.classList.add('p-6', 'bg-white', 'shadow-lg', 'rounded-lg');
+
+                articleDiv.innerHTML = `
+                    <h3 class="text-xl font-semibold text-green-600">${article.title}</h3>
+                    <p class="text-gray-600 mt-2">${article.description || "No description available."}</p>
+                    <a href="${article.url}" target="_blank" class="text-green-500 mt-4 block hover:underline">Read more</a>
+                `;
+
+                newsContainer.appendChild(articleDiv);
+            });
+        }
+
+        // Fetch news on page load
+        document.addEventListener('DOMContentLoaded', fetchEVTrends);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Forum</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/forum">Community Forum</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main class="forum-container">
+        <h1 class="forum-title">Community Forum</h1>
+        <p class="forum-intro">Ask questions, share answers, and collaborate with others!</p>
+
+        <section class="ask-question">
+            <h2>Ask a Question</h2>
+            <form action="/forum" method="POST">
+                <textarea name="question" id="question" placeholder="What do you want to ask?" required></textarea>
+                <button type="submit" class="submit-btn">Submit Question</button>
+            </form>
+        </section>
+
+        <section class="forum-posts">
+            <h2>Recent Questions and Answers</h2>
+            <div class="posts-list">
+                <% forumPosts.forEach(post => { %>
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <p class="question"><strong><%= post.question %></strong></p>
+                            <p class="timestamp"><em>Asked on: <%= post.timestamp %></em></p>
+                        </div>
+                        <% if(post.answer) { %>
+                            <div class="post-answer">
+                                <p><strong>Answer:</strong> <%= post.answer %></p>
+                            </div>
+                        <% } else { %>
+                            <p class="no-answer">No answer yet.</p>
+                            <form action="/forum/answer/<%= post.timestamp %>" method="POST" class="answer-form">
+                                <textarea name="answer" placeholder="Your answer here..." required></textarea>
+                                <button type="submit" class="submit-btn">Submit Answer</button>
+                            </form>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Chargewise</p>
+    </footer>
+</body>
+</html>
