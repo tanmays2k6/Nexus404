@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charging Stations Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        #map { height: 500px; width: 100%; }
+        .filter-container { margin: 20px 0; }
+        form { display: flex; gap: 10px; }
+        label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Charging Stations Map</h1>
+    </header>
+
+    <!-- Filter Form -->
+    <div class="filter-container">
+        <form id="filterForm">
+            <label for="availability">Availability: </label>
+            <select id="availability" name="availability">
+                <option value="All">All</option>
+                <option value="Available">Available</option>
+                <option value="Occupied">Occupied</option>
+            </select>
+
+            <label for="type">Charger Type: </label>
+            <select id="type" name="type">
+                <option value="All">All</option>
+                <option value="Fast">Fast</option>
+                <option value="Normal">Normal</option>
+            </select>
+
+            <button type="submit">Apply Filters</button>
+        </form>
+    </div>
+
+    <!-- Map Container -->
+    <div>
+        <div id="map"></div>
+    </div>
+
+    <footer>
+        <p>ChargeWise - Charging Stations Map</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Stations data injected from server
+        const stations = <%- JSON.stringify(stations) %>;
+
+        // Initialize map
+        const map = L.map('map').setView([28.7041, 77.1025], 12);  // Default map center (latitude, longitude)
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Function to update the map with markers based on filtered stations
+        function updateMap(filteredStations) {
+            // Remove existing markers
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            // Add filtered stations to map
+            filteredStations.forEach(station => {
+                const marker = L.marker([station.lat, station.lng]).addTo(map);
+                marker.bindPopup(`
+                    <b>${station.name}</b><br>
+                    Availability: ${station.availability}<br>
+                    Type: ${station.type}<br>
+                    Price: ${station.price}<br>
+                    Hours: ${station.hours}
+                `);
+            });
+        }
+
+        // Initially display all stations
+        updateMap(stations);
+
+        // Filter logic based on form values
+        document.getElementById('filterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const availability = document.getElementById('availability').value;
+            const type = document.getElementById('type').value;
+
+            // Filter stations based on selected criteria
+            const filteredStations = stations.filter(station => {
+                const matchesAvailability = availability === "All" || station.availability === availability;
+                const matchesType = type === "All" || station.type === type;
+                return matchesAvailability && matchesType;
+            });
+
+            // Update the map with filtered stations
+            updateMap(filteredStations);
+        });
+    </script>
+</body>
+</html>
+
