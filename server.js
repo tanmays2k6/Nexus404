@@ -166,8 +166,11 @@ const stations = [
     res.render('map', { stations: stations });
   });
   
+  app.get('/about', (req, res) => {
+    res.render('about'); // Renders the about.ejs file
+});
 
-const PORT = 3008;
+const PORT = 3009;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
